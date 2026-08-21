@@ -7,6 +7,15 @@ the browser, Bun, Node, Deno, and workers.
 bun add handful
 ```
 
+## sleep
+
+```js
+import { sleep } from 'handful';
+
+await sleep(250);
+await sleep(10_000, signal); // rejects with signal.reason the moment it aborts; the timer is cleared
+```
+
 ## countdown
 
 ```js

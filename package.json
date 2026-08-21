@@ -1,6 +1,6 @@
 {
 	"name": "handful",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
 	"license": "MIT",
 	"author": "Nic Polumeyv",
