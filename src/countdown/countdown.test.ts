@@ -39,4 +39,36 @@ describe('countdown', () => {
 		countdown((s) => seen.push(s)).start(0);
 		expect(seen).toEqual([0]);
 	});
+
+	it('five starts in a row leave exactly one live interval and never double a tick', async () => {
+		const live = new Set<unknown>();
+		const realSet = globalThis.setInterval;
+		const realClear = globalThis.clearInterval;
+		globalThis.setInterval = ((...args: Parameters<typeof setInterval>) => {
+			const id = realSet(...args);
+			live.add(id);
+			return id;
+		}) as typeof setInterval;
+		globalThis.clearInterval = ((id: Parameters<typeof clearInterval>[0]) => {
+			live.delete(id);
+			return realClear(id);
+		}) as typeof clearInterval;
+		try {
+			const ticks: number[] = [];
+			const c = countdown((s) => ticks.push(s));
+			for (let i = 0; i < 5; i++) {
+				c.start(3);
+				await after(120);
+			}
+			expect(live.size).toBe(1); // four intervals cleared, one armed
+			ticks.length = 0;
+			await after(2300); // only the surviving run ticks: 2 at ~1 s, 1 at ~2 s
+			expect(ticks).toEqual([2, 1]);
+			c.stop();
+			expect(live.size).toBe(0);
+		} finally {
+			globalThis.setInterval = realSet;
+			globalThis.clearInterval = realClear;
+		}
+	});
 });
