@@ -4,7 +4,10 @@
 	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
 	"license": "MIT",
 	"author": "Nic Polumeyv",
-	"repository": "github:nic-polumeyv/handful",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nic-polumeyv/handful.git"
+	},
 	"files": [
 		"src",
 		"!src/**/*.test.ts"
