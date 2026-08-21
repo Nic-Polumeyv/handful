@@ -1,0 +1,36 @@
+{
+	"name": "handful",
+	"version": "0.0.0",
+	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
+	"license": "MIT",
+	"author": "Nic Polumeyv",
+	"repository": "github:nic-polumeyv/handful",
+	"files": [
+		"src",
+		"!src/**/*.test.ts"
+	],
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"default": "./src/index.js"
+		}
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"scripts": {
+		"check": "tsc",
+		"test": "bun test",
+		"fmt": "oxfmt",
+		"lint": "oxlint"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.4.0",
+		"oxfmt": "0.63.0",
+		"oxlint": "1.77.0",
+		"typescript": "^6.0.3"
+	}
+}

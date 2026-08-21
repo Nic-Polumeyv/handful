@@ -1,0 +1,25 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      # Trusted publishing (OIDC): configure this repo + workflow as the package's trusted publisher on npmjs.com
+      # after the first manual `npm publish`; no NPM_TOKEN secret is needed.
+      - run: npm publish --provenance --access public
