@@ -32,8 +32,8 @@ jobs:
       # Pending changesets → "Version Packages" PR; none pending and version unpublished → publish.
       - uses: changesets/action@v2
         with:
-          version: bun run changeset:version
-          publish: bun run changeset:release
+          version-script: bun run changeset:version
+          publish-script: bun run changeset:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: 'true'
