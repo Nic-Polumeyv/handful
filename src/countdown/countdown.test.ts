@@ -1,28 +1,42 @@
 import { describe, expect, it } from 'bun:test';
 import { countdown } from './countdown.js';
 
+const after = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 describe('countdown', () => {
-	it('yields the remaining whole seconds down to 0, each right after its boundary', async () => {
-		const started = Date.now();
-		const seen: { value: number; at: number }[] = [];
-		for await (const value of countdown(started + 1200)) seen.push({ value, at: Date.now() - started });
-		expect(seen.map((s) => s.value)).toEqual([2, 1, 0]);
-		expect(seen[1]!.at).toBeGreaterThanOrEqual(200);
-		expect(seen[1]!.at).toBeLessThan(700);
-		expect(seen[2]!.at).toBeGreaterThanOrEqual(1200);
+	it('reports the duration at once, then one less per second down to 0', async () => {
+		const seen: number[] = [];
+		const c = countdown((s) => seen.push(s));
+		c.start(2);
+		expect(seen).toEqual([2]);
+		await after(2150);
+		expect(seen).toEqual([2, 1, 0]);
 	});
 
-	it('an instant already passed yields a single 0', async () => {
-		expect(await Array.fromAsync(countdown(Date.now() - 5))).toEqual([0]);
+	it('start() during a run ends that run; nothing of it is reported again', async () => {
+		const seen: number[] = [];
+		const c = countdown((s) => seen.push(s));
+		c.start(3);
+		await after(1100); // 3, 2
+		c.start(2); // 2 at once, then 1, 0
+		await after(2150);
+		expect(seen).toEqual([3, 2, 2, 1, 0]);
+		c.stop();
 	});
 
-	it('aborting ends the sequence without reaching 0', async () => {
-		const controller = new AbortController();
-		setTimeout(() => controller.abort(), 150);
-		expect(await Array.fromAsync(countdown(Date.now() + 10_000, controller.signal))).toEqual([10]);
+	it('stop() ends the run and reports 0', async () => {
+		const seen: number[] = [];
+		const c = countdown((s) => seen.push(s));
+		c.start(10);
+		await after(1100);
+		c.stop();
+		await after(1100);
+		expect(seen).toEqual([10, 9, 0]);
 	});
 
-	it('a signal aborted up front yields nothing', async () => {
-		expect(await Array.fromAsync(countdown(Date.now() + 10_000, AbortSignal.abort()))).toEqual([]);
+	it('a zero or already-elapsed duration reports a single 0', () => {
+		const seen: number[] = [];
+		countdown((s) => seen.push(s)).start(0);
+		expect(seen).toEqual([0]);
 	});
 });

@@ -21,36 +21,24 @@ await sleep(10_000, signal); // rejects with signal.reason the moment it aborts;
 ```js
 import { countdown } from 'handful';
 
-for await (const seconds of countdown(Date.now() + 60_000, signal)) render(seconds);
-// 60, 59, ... 0, each yielded right after the second boundary it describes
+const resend = countdown((seconds) => render(seconds)); // 60, 59, … 0
+resend.start(60);
+resend.stop(); // ends the run, reports 0
 ```
 
-Whole seconds left until an instant, one value per second, ending at `0`. The first value arrives at once; each next one
-lands right after its boundary, so a display fed by `for await` never shows a stale number. Aborting `signal` ends the
-sequence without a final `0`.
+A restartable whole-seconds countdown: `start(seconds)` reports the value at once, then one less every second down
+to `0`, ending any run in progress. Ticks ride `setInterval`, so a background tab can lag wall-clock time.
 
-Framework adapters stay in the framework. In Svelte 5, a restartable countdown is a dozen lines around it:
+In Svelte 5 the wrapper is the reactive sink plus teardown:
 
 ```js
 export function createCountdown() {
 	let seconds = $state(0);
-	let run;
-	const stop = () => {
-		run?.abort();
-		seconds = 0;
-	};
-	const start = (durationS) => {
-		stop();
-		seconds = Math.ceil(durationS);
-		run = new AbortController();
-		void (async () => {
-			for await (const s of countdown(Date.now() + durationS * 1000, run.signal)) seconds = s;
-		})();
-	};
-	$effect(() => stop);
+	const c = countdown((s) => (seconds = s));
+	$effect(() => c.stop);
 	return {
-		start,
-		stop,
+		start: c.start,
+		stop: c.stop,
 		get seconds() {
 			return seconds;
 		},
