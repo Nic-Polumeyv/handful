@@ -1,6 +1,6 @@
 {
 	"name": "handful",
-	"version": "0.2.1",
+	"version": "0.2.0",
 	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
 	"license": "MIT",
 	"author": "Nic Polumeyv",
@@ -27,9 +27,14 @@
 		"check": "tsc",
 		"test": "bun test",
 		"fmt": "oxfmt",
-		"lint": "oxlint"
+		"lint": "oxlint",
+		"changeset": "changeset",
+		"changeset:version": "changeset version && oxfmt",
+		"changeset:release": "changeset publish"
 	},
 	"devDependencies": {
+		"@changesets/changelog-github": "^1.0.0",
+		"@changesets/cli": "^3.0.1",
 		"@types/bun": "^1.4.0",
 		"oxfmt": "0.63.0",
 		"oxlint": "1.77.0",
