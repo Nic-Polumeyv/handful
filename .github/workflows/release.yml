@@ -2,17 +2,26 @@ name: release
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
 
-permissions:
-  contents: read
-  id-token: write
+concurrency:
+  # one release run at a time; two racing can publish twice or fail
+  group: ${{ github.workflow }}
+
+permissions: {}
 
 jobs:
-  publish:
+  release:
+    if: github.repository == 'Nic-Polumeyv/handful'
+    permissions:
+      contents: write # changesets/action creates the release + version commit
+      id-token: write # npm provenance (trusted publishing)
+      pull-requests: write # changesets/action opens the "Version Packages" PR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: oven-sh/setup-bun@v2
       - uses: actions/setup-node@v6
         with:
@@ -20,6 +29,11 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: bun install --frozen-lockfile
       - run: bun test
-      # Trusted publishing (OIDC): configure this repo + workflow as the package's trusted publisher on npmjs.com
-      # after the first manual `npm publish`; no NPM_TOKEN secret is needed.
-      - run: npm publish --provenance --access public
+      # Pending changesets → "Version Packages" PR; none pending and version unpublished → publish.
+      - uses: changesets/action@v2
+        with:
+          version: bun run changeset:version
+          publish: bun run changeset:release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
