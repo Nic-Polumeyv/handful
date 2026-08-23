@@ -12,7 +12,7 @@ const render = () => {
 	const target = document.createElement('div');
 	document.body.append(target);
 	const fixture = mount(CountdownFixture, { target });
-	return { ...fixture, target, teardown: () => unmount(fixture) };
+	return { ...fixture, target, teardown: () => void unmount(fixture) };
 };
 
 describe('createCountdown', () => {
