@@ -19,4 +19,5 @@ jobs:
       - run: bunx oxfmt --check
       - run: bunx oxlint
       - run: bun run check
-      - run: bun test
+      - run: bun run test
+      - run: bun run build

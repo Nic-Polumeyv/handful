@@ -1,7 +1,15 @@
 {
 	"name": "handful",
 	"version": "0.2.0",
-	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
+	"description": "A handful of Svelte utilities. Attachments and reactive helpers, nothing to depend on but Svelte itself.",
+	"keywords": [
+		"attachment",
+		"countdown",
+		"draggable",
+		"runes",
+		"scroll-reveal",
+		"svelte"
+	],
 	"license": "MIT",
 	"author": "Nic Polumeyv",
 	"repository": {
@@ -9,23 +17,53 @@
 		"url": "git+https://github.com/nic-polumeyv/handful.git"
 	},
 	"files": [
-		"src",
-		"!src/**/*.test.ts"
+		"dist",
+		"!dist/**/*.test.*"
 	],
 	"type": "module",
 	"sideEffects": false,
+	"types": "./dist/index.d.ts",
+	"svelte": "./dist/index.js",
 	"exports": {
 		".": {
-			"types": "./src/index.d.ts",
-			"default": "./src/index.js"
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./countdown": {
+			"types": "./dist/countdown.svelte.d.ts",
+			"svelte": "./dist/countdown.svelte.js",
+			"default": "./dist/countdown.svelte.js"
+		},
+		"./draggable": {
+			"types": "./dist/draggable.d.ts",
+			"svelte": "./dist/draggable.js",
+			"default": "./dist/draggable.js"
+		},
+		"./error-visibility": {
+			"types": "./dist/error-visibility.svelte.d.ts",
+			"svelte": "./dist/error-visibility.svelte.js",
+			"default": "./dist/error-visibility.svelte.js"
+		},
+		"./is-mobile": {
+			"types": "./dist/is-mobile.svelte.d.ts",
+			"svelte": "./dist/is-mobile.svelte.js",
+			"default": "./dist/is-mobile.svelte.js"
+		},
+		"./scroll-reveal": {
+			"types": "./dist/scroll-reveal.d.ts",
+			"svelte": "./dist/scroll-reveal.js",
+			"default": "./dist/scroll-reveal.js"
 		}
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"scripts": {
-		"check": "tsc",
-		"test": "bun test",
+		"build": "svelte-package",
+		"prepack": "svelte-package",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run",
 		"fmt": "oxfmt",
 		"lint": "oxlint",
 		"changeset": "changeset",
@@ -35,9 +73,19 @@
 	"devDependencies": {
 		"@changesets/changelog-github": "^1.0.0",
 		"@changesets/cli": "^3.0.1",
+		"@sveltejs/package": "^2.5.8",
+		"@sveltejs/vite-plugin-svelte": "^7.3.0",
 		"@types/bun": "^1.4.0",
+		"jsdom": "^29.1.1",
 		"oxfmt": "0.63.0",
 		"oxlint": "1.77.0",
-		"typescript": "^6.0.3"
+		"svelte": "^5.56.10",
+		"svelte-check": "^4.7.1",
+		"typescript": "^6.0.3",
+		"vite": "^8.2.2",
+		"vitest": "^4.1.11"
+	},
+	"peerDependencies": {
+		"svelte": "^5.56.10"
 	}
 }
