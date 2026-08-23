@@ -15,8 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
+      - run: bun install
       - run: bunx oxfmt --check
       - run: bunx oxlint
       - run: bun run check
-      - run: bun test
+      - run: bun run test

@@ -1,7 +1,15 @@
 {
 	"name": "handful",
 	"version": "0.2.0",
-	"description": "A handful of JavaScript primitives. No dependencies, no build, runs anywhere.",
+	"description": "A handful of Svelte utilities. Attachments and reactive helpers, nothing to depend on but Svelte itself.",
+	"keywords": [
+		"attachment",
+		"countdown",
+		"draggable",
+		"runes",
+		"scroll-reveal",
+		"svelte"
+	],
 	"license": "MIT",
 	"author": "Nic Polumeyv",
 	"repository": {
@@ -10,22 +18,48 @@
 	},
 	"files": [
 		"src",
-		"!src/**/*.test.ts"
+		"!src/**/*.test.*"
 	],
 	"type": "module",
 	"sideEffects": false,
 	"exports": {
 		".": {
 			"types": "./src/index.d.ts",
+			"svelte": "./src/index.js",
 			"default": "./src/index.js"
+		},
+		"./countdown": {
+			"types": "./src/countdown.svelte.d.ts",
+			"svelte": "./src/countdown.svelte.js",
+			"default": "./src/countdown.svelte.js"
+		},
+		"./draggable": {
+			"types": "./src/draggable.d.ts",
+			"svelte": "./src/draggable.js",
+			"default": "./src/draggable.js"
+		},
+		"./error-visibility": {
+			"types": "./src/error-visibility.svelte.d.ts",
+			"svelte": "./src/error-visibility.svelte.js",
+			"default": "./src/error-visibility.svelte.js"
+		},
+		"./is-mobile": {
+			"types": "./src/is-mobile.svelte.d.ts",
+			"svelte": "./src/is-mobile.svelte.js",
+			"default": "./src/is-mobile.svelte.js"
+		},
+		"./scroll-reveal": {
+			"types": "./src/scroll-reveal.d.ts",
+			"svelte": "./src/scroll-reveal.js",
+			"default": "./src/scroll-reveal.js"
 		}
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"scripts": {
-		"check": "tsc",
-		"test": "bun test",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run",
 		"fmt": "oxfmt",
 		"lint": "oxlint",
 		"changeset": "changeset",
@@ -35,9 +69,17 @@
 	"devDependencies": {
 		"@changesets/changelog-github": "^1.0.0",
 		"@changesets/cli": "^3.0.1",
-		"@types/bun": "^1.4.0",
-		"oxfmt": "0.63.0",
-		"oxlint": "1.77.0",
-		"typescript": "^6.0.3"
+		"@sveltejs/vite-plugin-svelte": "^7.3.0",
+		"jsdom": "^30.0.1",
+		"oxfmt": "0.64.0",
+		"oxlint": "1.78.0",
+		"svelte": "^5.56.10",
+		"svelte-check": "^4.7.6",
+		"typescript": "^6.0.3",
+		"vite": "^8.2.2",
+		"vitest": "^4.1.11"
+	},
+	"peerDependencies": {
+		"svelte": "^5.56.10"
 	}
 }
