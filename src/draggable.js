@@ -1,14 +1,19 @@
 import { getAbortSignal } from 'svelte';
-import type { Attachment } from 'svelte/attachments';
 import { on } from 'svelte/events';
 
-export function draggable(get: () => { x: number; y: number }, set: (p: { x: number; y: number }) => void): Attachment<HTMLElement> {
+/**
+ * @param {() => { x: number; y: number }} get
+ * @param {(position: { x: number; y: number }) => void} set
+ * @returns {import('svelte/attachments').Attachment<HTMLElement>}
+ */
+export function draggable(get, set) {
 	return (node) => {
 		const signal = getAbortSignal();
 		// Without this, touch browsers claim the gesture for panning and fire `pointercancel` on the first move.
 		const prevTouchAction = node.style.touchAction;
 		node.style.touchAction = 'none';
-		let active: number | null = null;
+		/** @type {number | null} */
+		let active = null;
 
 		on(
 			node,

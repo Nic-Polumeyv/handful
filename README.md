@@ -6,7 +6,8 @@ A handful of Svelte utilities: attachments and reactive helpers, with nothing to
 bun add handful
 ```
 
-Every export has its own subpath, so `import { draggable } from 'handful/draggable'` costs you only that file.
+Every export has its own subpath, so `import { draggable } from 'handful/draggable'` costs you only that file. Plain
+JavaScript with hand-written types, no build step.
 
 ## createCountdown
 

@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-      - run: bun install --frozen-lockfile
+      - run: bun install
       - run: bun test
       # Pending changesets → "Version Packages" PR; none pending and version unpublished → publish.
       - uses: changesets/action@v2

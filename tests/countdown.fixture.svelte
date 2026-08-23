@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createCountdown } from '../src/lib/countdown.svelte.js';
+	import { createCountdown } from '../src/countdown.svelte.js';
 
 	const cooldown = createCountdown();
 	export const { start, stop } = cooldown;
