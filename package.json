@@ -1,6 +1,6 @@
 {
 	"name": "handful",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "A handful of Svelte utilities. Attachments and reactive helpers, nothing to depend on but Svelte itself.",
 	"keywords": [
 		"attachment",
