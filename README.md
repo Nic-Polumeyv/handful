@@ -61,20 +61,6 @@ Shows a field's errors until the owner starts typing, then hides them until the 
 Programmatic value changes (`isTrusted === false`) don't count as typing, so clearing a field after submit
 doesn't hide an error nobody has read yet.
 
-## isMobile
-
-```svelte
-<script>
-	import { isMobile } from 'handful/is-mobile';
-</script>
-
-{#if isMobile.current}<Drawer />{:else}<Dialog />{/if}
-```
-
-A reactive `max-width` media query, defaulting to a 768px breakpoint; `new IsMobile(1024)` picks another. Use it
-for behaviour, like swapping a component tree. For styling, reach for CSS: this is `false` during SSR, so a
-JS-picked class flashes the desktop layout on phones.
-
 ## scrollReveal
 
 ```svelte

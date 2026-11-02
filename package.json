@@ -43,11 +43,6 @@
 			"svelte": "./src/error-visibility.svelte.js",
 			"default": "./src/error-visibility.svelte.js"
 		},
-		"./is-mobile": {
-			"types": "./src/is-mobile.svelte.d.ts",
-			"svelte": "./src/is-mobile.svelte.js",
-			"default": "./src/is-mobile.svelte.js"
-		},
 		"./scroll-reveal": {
 			"types": "./src/scroll-reveal.d.ts",
 			"svelte": "./src/scroll-reveal.js",
