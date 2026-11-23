@@ -1,5 +1,11 @@
 # handful
 
+## 0.4.0
+
+### Minor Changes
+
+- [#10](https://github.com/Nic-Polumeyv/handful/pull/10) [`e4e8e29`](https://github.com/Nic-Polumeyv/handful/commit/e4e8e294430d8fd780193d8f12ad67ab91928a6a) Thanks [@Nic-Polumeyv](https://github.com/Nic-Polumeyv)! - chore: drop `isMobile` and `IsMobile`; they were `MediaQuery` from `svelte/reactivity` with 768px filled in.
+
 ## 0.3.0
 
 ### Minor Changes
